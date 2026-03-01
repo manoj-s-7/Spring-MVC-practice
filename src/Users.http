@@ -24,3 +24,6 @@ Content-Type: application/json
   "email": "manoj123@test.com",
   "password": "pass@#123"
 }
+
+### Delete User
+DELETE {{localhost}}/11

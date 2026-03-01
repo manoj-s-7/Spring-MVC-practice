@@ -1,6 +1,7 @@
 package com.manojs.springmvc.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,5 +49,36 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.badRequest().body(error);
     }
+    // Bad request (custom)
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(
+            BadRequestException ex,
+            HttpServletRequest request) {
 
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.badRequest().body(error);
+    }
+    // Fallback for any unexpected error
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneral(
+            Exception ex,
+            HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal Server Error",
+                "Something went wrong",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
 }

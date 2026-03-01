@@ -1,7 +1,10 @@
 package com.manojs.springmvc.service;
 
+import com.manojs.springmvc.dto.UserRequestDTO;
+import com.manojs.springmvc.dto.UserResponseDTO;
 import com.manojs.springmvc.entity.User;
 import com.manojs.springmvc.exception.ResourceNotFoundException;
+import com.manojs.springmvc.mapper.UserMapper;
 import com.manojs.springmvc.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,33 +13,43 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepo userRepo;
 
-    public User findUserById(Long id){
-        return userRepo.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("User not Found: "+id));
+    public UserResponseDTO findUserById(Long id) {
+
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
+
+        return UserMapper.toDTO(user);
     }
-    public User addUser(User user){
-        return userRepo.save(user);
+
+    public UserResponseDTO addUser(UserRequestDTO dto) {
+
+        User user = UserMapper.toEntity(dto);
+
+        User savedUser = userRepo.save(user);
+
+        return UserMapper.toDTO(savedUser);
     }
 
     @Transactional
-    public User updateUser(User user,Long id){
-        User userByName = userRepo.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("User not Found : "+id));
+    public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
 
-        if(user.getName()!= null && !user.getName().isEmpty()){
-            userByName.setName(user.getName());
-        }
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
-        if(user.getEmail()!= null && !user.getEmail().isEmpty()){
-            userByName.setEmail(user.getEmail());
-        }
+        UserMapper.updateEntity(user, dto);
 
-        if(user.getPassword()!= null && !user.getPassword().isEmpty()){
-            userByName.setPassword(user.getPassword());
-        }
+        return UserMapper.toDTO(user);
+    }
 
-        return userByName;
+    @Transactional
+    public void deleteUser(Long id) {
+
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
+
+        userRepo.delete(user);
     }
 }

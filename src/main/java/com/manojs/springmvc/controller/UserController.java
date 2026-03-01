@@ -1,11 +1,14 @@
 package com.manojs.springmvc.controller;
 
 
+import com.manojs.springmvc.dto.UserRequestDTO;
+import com.manojs.springmvc.dto.UserResponseDTO;
 import com.manojs.springmvc.entity.User;
 import com.manojs.springmvc.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,15 +24,23 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findUserById(id));
     }
+
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserRequestDTO user) {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
+
     @PutMapping(path = "/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user,@PathVariable Long id){
-        return new ResponseEntity<>(userService.updateUser(user,id),HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user, @PathVariable Long id) {
+        return new ResponseEntity<>(userService.updateUser(id,user), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
