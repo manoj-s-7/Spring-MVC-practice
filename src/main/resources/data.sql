@@ -1,0 +1,10 @@
+INSERT INTO users (name, email, password) VALUES ('Manoj', 'manoj1@gmail.com', 'pass101');
+INSERT INTO users (name, email, password) VALUES ('Rahul', 'rahul02@gmail.com', 'pass102');
+INSERT INTO users (name, email, password) VALUES ('Aisha', 'aisha03@gmail.com', 'pass103');
+INSERT INTO users (name, email, password) VALUES ('Kiran', 'kiran04@gmail.com', 'pass104');
+INSERT INTO users (name, email, password) VALUES ('Sneha', 'sneha05@gmail.com', 'pass105');
+INSERT INTO users (name, email, password) VALUES ('Arjun', 'arjun06@gmail.com', 'pass106');
+INSERT INTO users (name, email, password) VALUES ('Divya', 'divya07@gmail.com', 'pass107');
+INSERT INTO users (name, email, password) VALUES ('Vikram', 'vikram08@gmail.com', 'pass108');
+INSERT INTO users (name, email, password) VALUES ('Neha', 'neha09@gmail.com', 'pass109');
+INSERT INTO users (name, email, password) VALUES ('Rohan', 'rohan10@gmail.com', 'pass110');
