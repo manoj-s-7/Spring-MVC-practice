@@ -1,12 +1,14 @@
 ### Health Check
 GET http://localhost:8080/actuator/health
 
+### GET all Users
+GET {{localhost}}/api/user
 
 ### GET user By id
-GET {{localhost}}/11
+GET {{localhost}}/api/user/11
 
 ### Create User
-POST {{localhost}}
+POST {{localhost}}/api/user
 Content-Type: application/json
 
 {
@@ -16,7 +18,7 @@ Content-Type: application/json
 }
 
 ### Update User
-PUT {{localhost}}/11
+PUT {{localhost}}/api/user/11
 Content-Type: application/json
 
 {
@@ -26,4 +28,4 @@ Content-Type: application/json
 }
 
 ### Delete User
-DELETE {{localhost}}/11
+DELETE {{localhost}}/api/user/11

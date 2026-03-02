@@ -3,8 +3,8 @@ package com.manojs.springmvc.controller;
 
 import com.manojs.springmvc.dto.UserRequestDTO;
 import com.manojs.springmvc.dto.UserResponseDTO;
-import com.manojs.springmvc.entity.User;
 import com.manojs.springmvc.service.UserService;
+import com.manojs.springmvc.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
 public class UserController {
     private final UserService userService;
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers(){
+        return ResponseEntity.ok(userService.findAllUsers());
+    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
