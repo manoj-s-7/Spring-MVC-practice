@@ -2,16 +2,20 @@ package com.manojs.springmvc.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UserRequestDTO(
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserRequestDTO {
+    @NotBlank
+    private String name;
+    @Email
+    @NotBlank
+    private String email;
 
-        @NotBlank
-        String name,
-
-        @Email
-        String email,
-
-        @NotBlank
-        String password
-
-) {}
+    @NotBlank
+    private String password;
+}

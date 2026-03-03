@@ -12,59 +12,53 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
+    private final UserMapper userMapper;
 
     @Override
-    public List<UserResponseDTO> findAllUsers(){
+    public List<UserResponseDTO> findAllUsers() {
         List<User> users = userRepo.findAll();
         if (users.isEmpty()) {
             throw new ResourceNotFoundException("No users found");
         }
         return users.stream()
-                .map(UserMapper::toDTO)
+                .map(userMapper::toDto)
                 .toList();
     }
 
     @Override
     public UserResponseDTO findUserById(Long id) {
-
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
-        return UserMapper.toDTO(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public UserResponseDTO addUser(UserRequestDTO dto) {
-
-        User user = UserMapper.toEntity(dto);
-
+        User user = userMapper.toEntity(dto);
         User savedUser = userRepo.save(user);
-
-        return UserMapper.toDTO(savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
     @Transactional
     public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
-
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
-        UserMapper.updateEntity(user, dto);
+        userMapper.updateEntity(user, dto);
 
-        return UserMapper.toDTO(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
-
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 

@@ -4,7 +4,6 @@ package com.manojs.springmvc.controller;
 import com.manojs.springmvc.dto.UserRequestDTO;
 import com.manojs.springmvc.dto.UserResponseDTO;
 import com.manojs.springmvc.service.UserService;
-import com.manojs.springmvc.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
