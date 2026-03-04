@@ -29,3 +29,11 @@ Content-Type: application/json
 
 ### Delete User
 DELETE {{localhost}}/api/user/11
+
+### Patch User
+PATCH {{localhost}}/api/user/1
+Content-Type: application/json
+
+{
+  "email": "manu"
+}

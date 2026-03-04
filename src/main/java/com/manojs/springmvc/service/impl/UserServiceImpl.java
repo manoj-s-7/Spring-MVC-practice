@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -63,5 +65,30 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
         userRepo.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDTO partialUpdate(Long id, Map<String, Object> updates) {
+        User existingUser = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
+
+        updates.forEach((field, value) -> {
+            if (value != null && !(value instanceof String)) {
+                throw new IllegalArgumentException("Field '" + field + "' must be a string");
+            }
+
+            String strValue = (String) value;
+
+            switch (field) {
+                case "name" -> existingUser.setName(strValue);
+                case "email" -> existingUser.setEmail(strValue);
+                default -> {
+                    throw new IllegalArgumentException("Field '" + field + "' is not allowed to be updated");
+                }
+            }
+        });
+
+        return userMapper.toDto(existingUser);
     }
 }
