@@ -2,6 +2,7 @@ package com.manojs.springmvc.service.impl;
 
 import com.manojs.springmvc.dto.UserRequestDTO;
 import com.manojs.springmvc.dto.UserResponseDTO;
+import com.manojs.springmvc.dto.UserUpdateDTO;
 import com.manojs.springmvc.entity.User;
 import com.manojs.springmvc.exception.ResourceNotFoundException;
 import com.manojs.springmvc.mapper.UserMapper;
@@ -69,26 +70,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDTO partialUpdate(Long id, Map<String, Object> updates) {
-        User existingUser = userRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
+    public UserResponseDTO updateUserDetails(final Long id, UserUpdateDTO userUpdateDTO) {
+        User userById = userRepo.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found: " + id));
 
-        updates.forEach((field, value) -> {
-            if (value != null && !(value instanceof String)) {
-                throw new IllegalArgumentException("Field '" + field + "' must be a string");
-            }
-
-            String strValue = (String) value;
-
-            switch (field) {
-                case "name" -> existingUser.setName(strValue);
-                case "email" -> existingUser.setEmail(strValue);
-                default -> {
-                    throw new IllegalArgumentException("Field '" + field + "' is not allowed to be updated");
-                }
-            }
-        });
-
-        return userMapper.toDto(existingUser);
+        userMapper.updateUserDetails(userById , userUpdateDTO);
+        return userMapper.toDto(userById);
     }
 }

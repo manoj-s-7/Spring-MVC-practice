@@ -3,7 +3,9 @@ package com.manojs.springmvc.controller;
 
 import com.manojs.springmvc.dto.UserRequestDTO;
 import com.manojs.springmvc.dto.UserResponseDTO;
+import com.manojs.springmvc.dto.UserUpdateDTO;
 import com.manojs.springmvc.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserRequestDTO user) {
+    public ResponseEntity<UserResponseDTO> addUser(@Valid @RequestBody UserRequestDTO user) {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
@@ -51,8 +53,8 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    @PatchMapping(path = "{id}")
-    public ResponseEntity<UserResponseDTO> partialUpdate(@PathVariable Long id,@RequestBody Map<String,Object> updates){
-        return ResponseEntity.ok(userService.partialUpdate(id,updates));
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<UserResponseDTO> partialUpdate(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO updates){
+        return ResponseEntity.ok(userService.updateUserDetails(id,updates));
     }
 }

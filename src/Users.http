@@ -12,7 +12,7 @@ POST {{localhost}}/api/user
 Content-Type: application/json
 
 {
-  "name": "Manoj",
+  "name": "",
   "email": "manoj@test.com",
   "password": "pass123"
 }

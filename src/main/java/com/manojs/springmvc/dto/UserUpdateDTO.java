@@ -1,8 +1,6 @@
 package com.manojs.springmvc.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,15 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDTO {
-    @NotBlank(message = "Name is required")
-    @Size(min = 1,max = 50,message = "Name should length of 50")
+public class UserUpdateDTO {
     private String name;
 
-    @NotBlank(message = "Email is required")
     @Email(message = "must be well-formed Email")
     private String email;
-
-    @NotBlank(message = "Password is required")
     private String password;
 }

@@ -2,6 +2,9 @@ package com.manojs.springmvc.service;
 
 import com.manojs.springmvc.dto.UserRequestDTO;
 import com.manojs.springmvc.dto.UserResponseDTO;
+import com.manojs.springmvc.dto.UserUpdateDTO;
+import com.manojs.springmvc.entity.User;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,5 @@ public interface UserService {
     UserResponseDTO updateUser(Long id, UserRequestDTO dto);
 
     void deleteUser(Long id);
-
-    UserResponseDTO partialUpdate(Long id,Map<String,Object> updates);
+    UserResponseDTO updateUserDetails(Long id , UserUpdateDTO userUpdateDTO);
 }
