@@ -12,7 +12,7 @@ A simple REST API for user management built with Spring Boot.
 
 ## Prerequisites
 
-- Java 17+
+- Java 21+
 - PostgreSQL running on `localhost:5432`
 
 ## Setup
